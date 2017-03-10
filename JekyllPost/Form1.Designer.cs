@@ -36,10 +36,10 @@
             this.categoriesLabel = new System.Windows.Forms.Label();
             this.categoriesTextBox = new System.Windows.Forms.TextBox();
             this.contentLabel = new System.Windows.Forms.Label();
-            this.contentTextBox = new System.Windows.Forms.TextBox();
             this.postListBox = new System.Windows.Forms.ListBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
+            this.contentTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -114,14 +114,6 @@
             this.contentLabel.TabIndex = 7;
             this.contentLabel.Text = "Content:*";
             // 
-            // contentTextBox
-            // 
-            this.contentTextBox.Location = new System.Drawing.Point(15, 199);
-            this.contentTextBox.Multiline = true;
-            this.contentTextBox.Name = "contentTextBox";
-            this.contentTextBox.Size = new System.Drawing.Size(560, 315);
-            this.contentTextBox.TabIndex = 8;
-            // 
             // postListBox
             // 
             this.postListBox.FormattingEnabled = true;
@@ -150,15 +142,23 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
+            // contentTextBox
+            // 
+            this.contentTextBox.Location = new System.Drawing.Point(15, 199);
+            this.contentTextBox.Name = "contentTextBox";
+            this.contentTextBox.Size = new System.Drawing.Size(561, 316);
+            this.contentTextBox.TabIndex = 12;
+            this.contentTextBox.Text = "";
+            // 
             // JekyllPost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1082, 587);
+            this.Controls.Add(this.contentTextBox);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.postListBox);
-            this.Controls.Add(this.contentTextBox);
             this.Controls.Add(this.contentLabel);
             this.Controls.Add(this.categoriesTextBox);
             this.Controls.Add(this.categoriesLabel);
@@ -184,10 +184,10 @@
         private System.Windows.Forms.Label categoriesLabel;
         private System.Windows.Forms.TextBox categoriesTextBox;
         private System.Windows.Forms.Label contentLabel;
-        private System.Windows.Forms.TextBox contentTextBox;
         private System.Windows.Forms.ListBox postListBox;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.RichTextBox contentTextBox;
     }
 }
 
