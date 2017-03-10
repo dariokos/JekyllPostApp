@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace JekyllPost
 {
@@ -17,12 +18,21 @@ namespace JekyllPost
         public JekyllPost()
         {
             InitializeComponent();
+
+            // Refreshes posts list
+            var di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"_posts\");
+            var files = new List<string> { };
+            files.AddRange(di.GetFiles().Select(file => file.Name));
+
+            postListBox.DataSource = files;
         }
 
         private string fileName;
         private string filePath;
 
         private List<string> formatedText;
+
+
 
         private void postButton_Click(object sender, EventArgs e)
         {
@@ -78,17 +88,27 @@ namespace JekyllPost
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            var postFilePath = AppDomain.CurrentDomain.BaseDirectory + @"_posts\" + postListBox.SelectedItem.ToString();
-            var sr = new StreamReader(postFilePath);
-            var line = new List<string> {};
-            while (sr.ReadLine() != null)
+            if (postListBox.SelectedItem == null)
             {
-                line.Add(sr.ReadLine());
+                MessageBox.Show("Select post to edit!");
             }
+            else
+            {
+                var postFilePath = AppDomain.CurrentDomain.BaseDirectory + @"_posts\" +
+                                   postListBox.SelectedItem.ToString();
+                var title = File.ReadLines(postFilePath).ElementAt(1);
+                var date = File.ReadLines(postFilePath).ElementAt(2);
+                var categories = File.ReadLines(postFilePath).ElementAt(3);
+                var description = File.ReadLines(postFilePath).Skip(5);
 
-            line.AddRange();
 
-            this.titleTextBox.Text
+                this.titleTextBox.Text = title != null ? title.Replace("title: ", string.Empty) : "";
+                this.dateTimePicker1.Value = date != null
+                    ? Convert.ToDateTime(date.Replace("date: ", string.Empty))
+                    : DateTime.Today;
+                this.categoriesTextBox.Text = categories != null ? categories.Replace("categories: ", string.Empty) : "";
+                this.contentTextBox.Text = string.Join("\n", description) != null ? string.Join("\n", description) : "";
+            }
         }
     }
 
