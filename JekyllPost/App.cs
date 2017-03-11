@@ -19,12 +19,7 @@ namespace JekyllPost
         {
             InitializeComponent();
 
-            // Refreshes posts list
-            var di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"_posts\");
-            var files = new List<string> { };
-            files.AddRange(di.GetFiles().Select(file => file.Name));
-
-            postListBox.DataSource = files;
+            RefreshListBox();
         }
 
         private string fileName;
@@ -48,6 +43,7 @@ namespace JekyllPost
                 "title: " + this.titleTextBox.Text,
                 "date: " + this.dateTimePicker1.Value.ToString("yyyy-MM-dd"),
                 "categories: " + this.categoriesTextBox.Text.ToLower().Trim(),
+                "layout: post",
                 "---",
                 this.contentTextBox.Text
                 };
@@ -62,7 +58,9 @@ namespace JekyllPost
                 this.titleTextBox.Text = "";
                 this.categoriesTextBox.Text = "";
                 this.contentTextBox.Text = "";
-                
+
+                RefreshListBox();
+
                 MessageBox.Show("Post has been successfully written.");
 
                 
@@ -78,11 +76,7 @@ namespace JekyllPost
 
         private void refreshButton_Click(object sender, EventArgs e)
         {
-            var di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"_posts\");
-            var files = new List<string> {};
-            files.AddRange(di.GetFiles().Select(file => file.Name));
-
-            postListBox.DataSource = files;
+            RefreshListBox();
 
         }
 
@@ -99,7 +93,7 @@ namespace JekyllPost
                 var title = File.ReadLines(postFilePath).ElementAt(1);
                 var date = File.ReadLines(postFilePath).ElementAt(2);
                 var categories = File.ReadLines(postFilePath).ElementAt(3);
-                var description = File.ReadLines(postFilePath).Skip(5);
+                var description = File.ReadLines(postFilePath).Skip(6);
 
 
                 this.titleTextBox.Text = title != null ? title.Replace("title: ", string.Empty) : "";
@@ -109,6 +103,16 @@ namespace JekyllPost
                 this.categoriesTextBox.Text = categories != null ? categories.Replace("categories: ", string.Empty) : "";
                 this.contentTextBox.Text = string.Join("\n", description) != null ? string.Join("\n", description) : "";
             }
+        }
+
+
+        private void RefreshListBox()
+        {
+            var di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"_posts\");
+            var files = new List<string> { };
+            files.AddRange(di.GetFiles().Select(file => file.Name));
+
+            postListBox.DataSource = files;
         }
     }
 
